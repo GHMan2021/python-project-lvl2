@@ -1,8 +1,11 @@
 from gendiff import generate_diff
+from pathlib import Path
 
 
 def test_generate_diff():
-    diff = generate_diff(file1='file1.json', file2='file2.json')
+    file1 = Path(Path.cwd() / 'tests' / 'fixtures' / 'file1.json')
+    file2 = Path(Path.cwd() / 'tests' / 'fixtures' / 'file2.json')
+    diff = generate_diff(file1, file2)
 
     assert diff == \
            '{\n- follow: false\n  host: hexlet.io\n' \
@@ -10,6 +13,8 @@ def test_generate_diff():
 
 
 def test_type_output():
-    diff = generate_diff(file1='file1.json', file2='file2.json')
+    file1 = Path(Path.cwd() / 'tests' / 'fixtures' / 'file1.json')
+    file2 = Path(Path.cwd() / 'tests' / 'fixtures' / 'file2.json')
+    diff = generate_diff(file1, file2)
 
     assert isinstance(diff, str)
