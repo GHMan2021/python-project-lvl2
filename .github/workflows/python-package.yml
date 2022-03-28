@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Install repository
-    - uses: actions/checkout@v3.0.0
+    - uses: actions/checkout@v2
 
     - name: Set up Python ${{ matrix.python-version }}
     - uses: actions/setup-python@v2
