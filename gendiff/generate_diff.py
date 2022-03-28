@@ -1,17 +1,14 @@
 import json
-from gendiff.replace_bool import replace_bool
-# import pathlib
 from pathlib import Path
-
-
-def path(file):
-    return Path.home() / 'python-project-lvl2' / 'tests' / 'fixtures' / file
+from gendiff.replace_bool import replace_bool
 
 
 def generate_diff(file1, file2):
+    # нахождение пути запущенного скрипта
+    source_file = Path(__file__).resolve()
     # открыть файлы формата json
-    file_1 = json.load(open(path(file1)))
-    file_2 = json.load(open(path(file2)))
+    file_1 = json.load(open(Path(source_file.parent / file1)))
+    file_2 = json.load(open(Path(source_file.parent / file2)))
     # замена булевых значений на строковые в словаре
     file_1 = replace_bool(file_1)
     file_2 = replace_bool(file_2)
