@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 def path(file):
-    return Path.home() / 'tests' / 'fixtures' / file
+    return Path.home() / 'python-project-lvl2' / 'tests' / 'fixtures' / file
 
 
 def generate_diff(file1, file2):
