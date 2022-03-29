@@ -19,7 +19,15 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+    - uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+      - run: |
+          pip install poetry
+          make install
 
+    - uses: paambaati/codeclimate-action@v2.7.5
+      env:
+        CC_TEST_REPORTED_ID: {{ secrets.REPORTED_ID }}
+      with:
+        coverageCommand: make test-coverage
