@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: test-coverage
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      
+      # Install Python ver.3.8 & Poetry
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - run: |
+          pip install poetry
+          make install
+          
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: 73fbed3a90c90624760cbf8f0eb0e3ee81248ef62e1840c3c824e2ddf41fa0a6
+        with:
+          coverageCommand: npm run coverage
+          debug: true
