@@ -1,6 +1,5 @@
 import sys
 sys.path.append(r"/home/yuri/python-project-lvl2/gendiff")
-
 from gendiff.generate_diff import generate_diff
 from pathlib import Path
 
