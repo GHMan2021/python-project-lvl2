@@ -6,6 +6,6 @@ build:
 lint:
 	poetry run flake8 gendiff
 test:
-	poetry run pytest
+	poetry run pytest test/
 test-coverage:
-	poetry run pytest --cov=tests --cov-report=xml
+	poetry run pytest --cov=tests/ --cov-report=xml

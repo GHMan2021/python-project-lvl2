@@ -4,11 +4,11 @@ from gendiff.replace_bool import replace_bool
 
 
 def generate_diff(file1, file2):
-    # нахождение пути запущенного скрипта
-    source_file = Path(__file__).resolve()
+    # нахождение пути рабочей директории
+    source_file = Path.cwd()
     # открыть файлы формата json
-    file_1 = json.load(open(Path(source_file.parent / file1)))
-    file_2 = json.load(open(Path(source_file.parent / file2)))
+    file_1 = json.load(open(Path(source_file / file1)))
+    file_2 = json.load(open(Path(source_file / file2)))
     # замена булевых значений на строковые в словаре
     file_1 = replace_bool(file_1)
     file_2 = replace_bool(file_2)
