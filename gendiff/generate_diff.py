@@ -5,7 +5,8 @@ from gendiff.replace_bool import replace_bool
 
 
 def get_list_files(file1, file2):
-    suffix_files = list(map(lambda x: Path(Path(x).name).suffix,(file1, file2)))
+    suffix_files = \
+        list(map(lambda x: Path(Path(x).name).suffix, (file1, file2)))
 
     path_files = list(map(lambda x: Path(Path.cwd() / x), (file1, file2)))
 
@@ -36,7 +37,8 @@ def generate_diff(file1, file2):
     list_files = get_list_files(file1, file2)
 
     file_1, file_2 = list_files[0], list_files[1]
-    list_keys_1, list_keys_2 = list(file_1.keys()), list(file_2.keys())
+    list_keys_1 = list(file_1.keys())
+    list_keys_2 = list(file_2.keys())
 
     list_keys = sorted(set(list_keys_1 + list_keys_2))
 
