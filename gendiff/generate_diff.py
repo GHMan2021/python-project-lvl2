@@ -5,7 +5,7 @@ from gendiff.replace_bool import replace_bool
 
 
 def get_list_files(file1, file2):
-    suffix_files = list(map(lambda x: Path(Path(x).name).suffix, (file1, file2)))
+    suffix_files = list(map(lambda x: Path(Path(x).name).suffix,(file1, file2)))
 
     path_files = list(map(lambda x: Path(Path.cwd() / x), (file1, file2)))
 
