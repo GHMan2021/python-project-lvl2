@@ -14,7 +14,7 @@ def get_list_files(file1, file2):
     i = 0
     for _ in suffix_files:
         if _ not in ['.json', 'yml', 'yaml']:
-            return "File format is wrong"
+            return False
 
         if _ == '.json':
             file_json = json.load(open(path_files[i]))
@@ -35,6 +35,8 @@ def get_list_files(file1, file2):
 
 def generate_diff(file1, file2):
     list_files = get_list_files(file1, file2)
+    if not list_files:
+        return "File format is wrong"
 
     file_1, file_2 = list_files[0], list_files[1]
     list_keys_1 = list(file_1.keys())
