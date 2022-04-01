@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from gendiff.replace_bool import replace_bool
+from .replace_bool import replace_bool
 
 
 def generate_diff(file1, file2):
