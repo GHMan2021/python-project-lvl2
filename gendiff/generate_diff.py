@@ -5,16 +5,22 @@ from gendiff.replace_bool import replace_bool
 
 
 def get_list_files(file1, file2):
+    # список расширений файлов
     suffix_files = \
         list(map(lambda x: Path(Path(x).name).suffix, (file1, file2)))
 
+    # список путей файлов и проверка их правильности
     path_files = list(map(lambda x: Path(Path.cwd() / x), (file1, file2)))
+    path_files_exists = list(filter(lambda x: Path(x).exists(), path_files))
+    if len(path_files_exists) != 2:
+        return "File path is wrong"
 
+    # формирование списка словарей из 2х переданных файлов
     list_files = []
     i = 0
     for suffix in suffix_files:
         if suffix not in ['.json', '.yml', '.yaml']:
-            return False
+            return "File format is wrong"
 
         if suffix == '.json':
             file_json = json.load(open(path_files[i]))
@@ -34,9 +40,10 @@ def get_list_files(file1, file2):
 
 
 def generate_diff(file1, file2):
+    # сформировать список из 2 словарей из файлов с проверкой корректности
     list_files = get_list_files(file1, file2)
-    if not list_files:
-        return "File format is wrong"
+    if isinstance(list_files, str):
+        return list_files
 
     file_1, file_2 = list_files[0], list_files[1]
     list_keys_1, list_keys_2 = list(file_1.keys()), list(file_2.keys())
