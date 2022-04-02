@@ -12,11 +12,11 @@ def get_list_files(file1, file2):
 
     list_files = []
     i = 0
-    for _ in suffix_files:
-        if _ not in ['.json', 'yml', 'yaml']:
+    for suffix in suffix_files:
+        if suffix not in ['.json', '.yml', '.yaml']:
             return False
 
-        if _ == '.json':
+        if suffix == '.json':
             file_json = json.load(open(path_files[i]))
             file_json = replace_bool(file_json)
             list_files.append(file_json)
@@ -39,8 +39,7 @@ def generate_diff(file1, file2):
         return "File format is wrong"
 
     file_1, file_2 = list_files[0], list_files[1]
-    list_keys_1 = list(file_1.keys())
-    list_keys_2 = list(file_2.keys())
+    list_keys_1, list_keys_2 = list(file_1.keys()), list(file_2.keys())
 
     list_keys = sorted(set(list_keys_1 + list_keys_2))
 
@@ -61,6 +60,8 @@ def generate_diff(file1, file2):
                 line_2 = ("+ " + str(key) + ": " + str(file_2[key]))
                 result.append(line_1)
                 result.append(line_2)
+
+    # вывод результата по шаблону
     prn = "{\n"
     for i in result:
         prn += i + '\n'
