@@ -2,7 +2,8 @@ import json
 import yaml
 from functools import wraps
 from pathlib import Path
-from gendiff.replace_bool import replace_bool
+from gendiff.diff import diff
+from gendiff.stylish import stylish
 
 
 def path_and_suffix(func):
@@ -27,50 +28,13 @@ def is_correct_file(file):
 @path_and_suffix
 def prepare_dict(file):
     if file[1] == '.json':
-        file_json = json.load(open(file[0]))
-        file_json = replace_bool(file_json)
+        file = open(file[0])
+        file_json = json.load(file)
+        file.close()
         return file_json
     stream = open(file[0])
     file_yml = yaml.safe_load(stream)
-    dict_files = {}
-    for j in file_yml:
-        dict_files.update(j)
-    dict_files = replace_bool(dict_files)
-    return dict_files
-
-
-def diff(list_dicts):
-    file_1, file_2 = list_dicts[0], list_dicts[1]
-    list_keys_1, list_keys_2 = list(file_1.keys()), list(file_2.keys())
-
-    list_keys = sorted(set(list_keys_1 + list_keys_2))
-
-    result = []
-    for key in list_keys:
-        if key not in list_keys_1:
-            line = ("+ " + str(key) + ": " + str(file_2[key]))
-            result.append(line)
-        else:
-            if key not in list_keys_2:
-                line = ("- " + str(key) + ": " + str(file_1[key]))
-                result.append(line)
-            elif file_1[key] == file_2[key]:
-                line = ("  " + str(key) + ": " + str(file_1[key]))
-                result.append(line)
-            else:
-                line_1 = ("- " + str(key) + ": " + str(file_1[key]))
-                line_2 = ("+ " + str(key) + ": " + str(file_2[key]))
-                result.append(line_1)
-                result.append(line_2)
-    return result
-
-
-def output(result):
-    prn = "{\n"
-    for i in result:
-        prn += i + '\n'
-    prn = prn + '}'
-    return prn
+    return file_yml
 
 
 def generate_diff(file1, file2):
@@ -88,4 +52,4 @@ def generate_diff(file1, file2):
     result = diff(list_dicts)
 
     # функция вывода результата в заданном формате
-    return output(result)
+    return stylish(result)
