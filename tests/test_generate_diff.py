@@ -1,16 +1,17 @@
 from gendiff import generate_diff
+from gendiff.stylish import stylish
 from pathlib import Path
 
 
 file1 = Path(Path.cwd() / 'tests/fixtures/file1.json')
 file2 = Path(Path.cwd() / 'tests/fixtures/file2.json')
-diff_json = generate_diff(file1, file2)
+diff_json = stylish(generate_diff(file1, file2))
 
 file11 = Path(Path.cwd() / 'tests/fixtures/filepath1.yml')
 file22 = Path(Path.cwd() / 'tests/fixtures/filepath2.yml')
-diff_yml = generate_diff(file11, file22)
+diff_yml = stylish(generate_diff(file11, file22))
 
-diff_json_yml = generate_diff(file1, file22)
+diff_json_yml = stylish(generate_diff(file1, file22))
 
 
 def test_generate_diff_returns_str():
