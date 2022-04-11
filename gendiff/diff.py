@@ -1,4 +1,3 @@
-from gendiff.replace_bool import replace_bool
 
 
 def diff(list_dicts):
@@ -7,8 +6,8 @@ def diff(list_dicts):
 
     result = []
     for key in sorted(list_keys_1 | list_keys_2):
-        val_1 = replace_bool(dict_1.get(key))
-        val_2 = replace_bool(dict_2.get(key))
+        val_1 = dict_1.get(key)
+        val_2 = dict_2.get(key)
 
         if all([isinstance(val_1, dict), isinstance(val_2, dict)]):
             result.append({'stat': 'DICT', 'key': key,

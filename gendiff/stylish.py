@@ -1,5 +1,6 @@
-from gendiff.diff import diff
 import itertools
+from .diff import diff
+from .replace_bool_and_none import replace_bool_and_none
 
 
 def stylish(value):
@@ -20,30 +21,35 @@ def stylish(value):
                     res = iter_((diff([cv_v, cv_v])), depth + 4)
                     prn.append(f"{indent_size}+ {cv_k}: {res}")
                 else:
-                    prn.append(f"{indent_size}+ {cv_k}: {cv_v}")
+                    prn.append(
+                        f"{indent_size}+ {cv_k}: {replace_bool_and_none(cv_v)}")
 
             elif cv_s == 'DEL':
                 if isinstance(cv_v, dict):
                     res = iter_((diff([cv_v, cv_v])), depth + 4)
                     prn.append(f"{indent_size}- {cv_k}: {res}")
                 else:
-                    prn.append(f"{indent_size}- {cv_k}: {cv_v}")
+                    prn.append(
+                        f"{indent_size}- {cv_k}: {replace_bool_and_none(cv_v)}")
 
             elif cv_s == 'EQUAL':
-                prn.append(f"{indent_size}  {cv_k}: {cv_v}")
+                prn.append(
+                    f"{indent_size}  {cv_k}: {replace_bool_and_none(cv_v)}")
 
             elif cv_s == 'CHANGE':
                 if isinstance(cv_v['DEL'], dict):
                     res = iter_((diff([cv_v['DEL'], cv_v['DEL']])), depth + 4)
                     prn.append(f"{indent_size}- {cv_k}: {res}")
                 else:
-                    prn.append(f"{indent_size}- {cv_k}: {cv_v['DEL']}")
+                    prn.append(f"{indent_size}- {cv_k}: "
+                               f"{replace_bool_and_none(cv_v['DEL'])}")
 
                 if isinstance(cv_v['ADD'], dict):
                     res = iter_((diff([cv_v['ADD'], cv_v['ADD']])), depth + 4)
                     prn.append(f"{indent_size}+ {cv_k}: {res}")
                 else:
-                    prn.append(f"{indent_size}+ {cv_k}: {cv_v['ADD']}")
+                    prn.append(f"{indent_size}+ {cv_k}: "
+                               f"{replace_bool_and_none(cv_v['ADD'])}")
 
             else:
                 prn.append(f"{indent_size}  {cv_k}: "

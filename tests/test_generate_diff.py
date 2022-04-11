@@ -1,17 +1,17 @@
 from gendiff import generate_diff
-from gendiff.stylish import stylish
 from pathlib import Path
 
 
 file1 = Path(Path.cwd() / 'tests/fixtures/file1.json')
 file2 = Path(Path.cwd() / 'tests/fixtures/file2.json')
-diff_json = stylish(generate_diff(file1, file2))
+diff_json = generate_diff(file1, file2, 'stylish')
+diff_json_plain = generate_diff(file1, file2, 'plain')
 
 file11 = Path(Path.cwd() / 'tests/fixtures/filepath1.yml')
 file22 = Path(Path.cwd() / 'tests/fixtures/filepath2.yml')
-diff_yml = stylish(generate_diff(file11, file22))
+diff_yml = generate_diff(file11, file22, None)
 
-diff_json_yml = stylish(generate_diff(file1, file22))
+diff_json_yml = generate_diff(file1, file22)
 
 
 def test_generate_diff_returns_str():
@@ -27,6 +27,12 @@ def test_generate_diff_returns_json_result():
     assert diff_json == result_json.read()
 
 
+def test_generate_diff_returns_json_plain_result():
+    result_json = open(Path(Path.cwd() / 'tests/fixtures/result_diff_plain'))
+
+    assert diff_json_plain == result_json.read()
+
+
 def test_generate_diff_returns_yml_result():
     result_yml = open(Path(Path.cwd() / 'tests/fixtures/result_diff'))
 
@@ -39,17 +45,7 @@ def test_generate_diff_returns_yml_json_result():
     assert diff_json_yml == result_json_yml.read()
 
 
-def test_generate_diff_returns_format_error():
-    file1e = Path(Path.cwd() / 'tests/fixtures/file1.json')
-    file2e = Path(Path.cwd() / 'tests/fixtures/result_diff')
-    diff_json_e = generate_diff(file1e, file2e)
+def test_generate_diff_returns_err_format():
+    diff_json = generate_diff(file1, file2, 'foo')
 
-    assert diff_json_e == 'File format is wrong'
-
-
-def test_generate_diff_returns_path_error():
-    file1e = Path(Path.cwd() / 'tRsts/fixtures/file1.yml')
-    file2e = Path(Path.cwd() / 'tests/fixtures/file2.yml')
-    diff_yml_e = generate_diff(file1e, file2e)
-
-    assert diff_yml_e == 'File path is wrong'
+    assert diff_json == 'Output format is undefined'
