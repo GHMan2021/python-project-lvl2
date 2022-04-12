@@ -1,5 +1,5 @@
 import itertools
-from .replace_bool_and_none import replace_bool_and_none
+from gendiff.replace_bool_and_none import replace_bool_and_none
 
 
 def check_dict_val(value):
@@ -7,8 +7,10 @@ def check_dict_val(value):
         result = '[complex value]'
     elif any([type(value) == bool, value is None]):
         result = replace_bool_and_none(value)
-    else:
+    elif type(value) == str:
         result = f"'{value}'"
+    else:
+        result = value
     return result
 
 

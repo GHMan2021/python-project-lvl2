@@ -1,3 +1,4 @@
+import json
 from gendiff import generate_diff
 from pathlib import Path
 
@@ -9,7 +10,7 @@ diff_json_plain = generate_diff(file1, file2, 'plain')
 
 file11 = Path(Path.cwd() / 'tests/fixtures/filepath1.yml')
 file22 = Path(Path.cwd() / 'tests/fixtures/filepath2.yml')
-diff_yml = generate_diff(file11, file22, None)
+diff_yml = generate_diff(file11, file22)
 
 diff_json_yml = generate_diff(file1, file22)
 
@@ -46,6 +47,15 @@ def test_generate_diff_returns_yml_json_result():
 
 
 def test_generate_diff_returns_err_format():
-    diff_json = generate_diff(file1, file2, 'foo')
+    diff_json_err = generate_diff(file1, file2, 'foo')
 
-    assert diff_json == 'Output format is undefined'
+    assert diff_json_err == 'Output format is undefined'
+
+
+def test_generate_diff_returns_json_format_result():
+    diff_json_format = generate_diff(file1, file2, 'json')
+
+    file = open(Path(Path.cwd() / 'tests/fixtures/result_diff_json.json'))
+    result_json_format = json.load(file)
+
+    assert diff_json_format == json.dumps(result_json_format, indent=4)

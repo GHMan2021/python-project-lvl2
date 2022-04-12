@@ -1,6 +1,6 @@
 import itertools
-from .diff import diff
-from .replace_bool_and_none import replace_bool_and_none
+from gendiff.diff import diff
+from gendiff.replace_bool_and_none import replace_bool_and_none
 
 
 def stylish(value):
