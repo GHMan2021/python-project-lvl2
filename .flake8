@@ -13,3 +13,4 @@ ignore =
 per-file-ignores =
   */__init__.py: F401
   stylish.py: C901
+  json_output.py: C901
