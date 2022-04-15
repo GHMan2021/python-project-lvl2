@@ -2,8 +2,8 @@ from .diff import diff
 from .parser import parser
 from gendiff.formater.stylish import stylish
 from gendiff.formater.plain import plain
-from .check_path_and_suffix import is_correct_file
 from gendiff.formater.json_output import json_output
+from .check_path_and_suffix import is_correct_file
 
 
 def generate_diff(file1, file2, format_name='stylish'):
@@ -21,12 +21,11 @@ def generate_diff(file1, file2, format_name='stylish'):
     # вывод функции сравнения словарей
     result = diff(list_dicts)
 
-    # вывод в соответствии с заданным форматом
-    if format_name == 'stylish':
-        return stylish(result)
-    elif format_name == 'plain':
-        return plain(result)
-    elif format_name == 'json':
-        return json_output(result)
-    else:
-        return 'Output format is undefined'
+    formater_dict = {
+        'stylish': stylish,
+        'plain': plain,
+        'json': json_output
+    }
+
+    return formater_dict.get(format_name,
+                             lambda x: 'Output format is undefined')(result)

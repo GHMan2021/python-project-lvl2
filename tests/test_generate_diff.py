@@ -55,7 +55,7 @@ def test_generate_diff_returns_err_format():
 def test_generate_diff_returns_json_format_result():
     diff_json_format = generate_diff(file1, file2, 'json')
 
-    file = open(Path(Path.cwd() / 'tests/fixtures/result_diff_json.json'))
-    result_json_format = json.load(file)
+    with open(Path(Path.cwd() / 'tests/fixtures/result_diff_json.json')) as f:
+        result_json_format = json.load(f)
 
     assert diff_json_format == json.dumps(result_json_format, indent=4)
