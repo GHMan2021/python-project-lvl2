@@ -1,61 +1,49 @@
 import json
+import pytest
 from gendiff import generate_diff
-from pathlib import Path
 
 
-file1 = Path(Path.cwd() / 'tests/fixtures/file1.json')
-file2 = Path(Path.cwd() / 'tests/fixtures/file2.json')
-diff_json = generate_diff(file1, file2, 'stylish')
-diff_json_plain = generate_diff(file1, file2, 'plain')
-
-file11 = Path(Path.cwd() / 'tests/fixtures/filepath1.yml')
-file22 = Path(Path.cwd() / 'tests/fixtures/filepath2.yml')
-diff_yml = generate_diff(file11, file22)
-
-diff_json_yml = generate_diff(file1, file22)
+json1 = 'tests/fixtures/file1.json'
+json2 = 'tests/fixtures/file2.json'
+yml1 = 'tests/fixtures/filepath1.yml'
+yml2 = 'tests/fixtures/filepath2.yml'
 
 
-def test_generate_diff_returns_str():
-
-    assert isinstance(diff_yml, str)
-    assert isinstance(diff_json, str)
-    assert isinstance(diff_json_yml, str)
-
-
-def test_generate_diff_returns_json_result():
-    result_json = open(Path(Path.cwd() / 'tests/fixtures/result_diff'))
-
-    assert diff_json == result_json.read()
+@pytest.fixture
+def result_json_stylish():
+    with open('tests/fixtures/result_diff', 'r') as f:
+        return f.read()
 
 
-def test_generate_diff_returns_json_plain_result():
-    result_json = open(Path(Path.cwd() / 'tests/fixtures/result_diff_plain'))
-
-    assert diff_json_plain == result_json.read()
-
-
-def test_generate_diff_returns_yml_result():
-    result_yml = open(Path(Path.cwd() / 'tests/fixtures/result_diff'))
-
-    assert diff_yml == result_yml.read()
+@pytest.fixture
+def result_json_plain():
+    with open('tests/fixtures/result_diff_plain', 'r') as f:
+        return f.read()
 
 
-def test_generate_diff_returns_yml_json_result():
-    result_json_yml = open(Path(Path.cwd() / 'tests/fixtures/result_diff'))
+def test_generate_diff_returns_json_result(result_json_stylish):
+    assert generate_diff(json1, json2, 'stylish') == result_json_stylish
 
-    assert diff_json_yml == result_json_yml.read()
+
+def test_generate_diff_returns_yml_result(result_json_stylish):
+    assert generate_diff(yml1, yml2) == result_json_stylish
+
+
+def test_generate_diff_returns_yml_json_result(result_json_stylish):
+    assert generate_diff(json1, yml2) == result_json_stylish
+
+
+def test_generate_diff_returns_json_plain_result(result_json_plain):
+    assert generate_diff(json1, json2, 'plain') == result_json_plain
 
 
 def test_generate_diff_returns_err_format():
-    diff_json_err = generate_diff(file1, file2, 'foo')
-
-    assert diff_json_err == 'Output format is undefined'
+    assert generate_diff(json1, json2, 'foo') == 'Output format is undefined'
 
 
 def test_generate_diff_returns_json_format_result():
-    diff_json_format = generate_diff(file1, file2, 'json')
-
-    with open(Path(Path.cwd() / 'tests/fixtures/result_diff_json.json')) as f:
+    with open('tests/fixtures/result_diff_json.json') as f:
         result_json_format = json.load(f)
 
-    assert diff_json_format == json.dumps(result_json_format, indent=4)
+    assert generate_diff(json1, json2, 'json') == \
+           json.dumps(result_json_format, indent=4)
