@@ -1,9 +1,7 @@
 from .diff import diff
 from .parser import parser
-from gendiff.formater.stylish import stylish
-from gendiff.formater.plain import plain
-from gendiff.formater.json_output import json_output
 from .check_path_and_suffix import is_correct_file
+from gendiff.formater import stylish, json_output, plain
 
 
 def generate_diff(file1, file2, format_name='stylish'):
