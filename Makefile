@@ -13,6 +13,3 @@ package-install:
 	python3 -m pip install --user dist/*.whl
 package-reinstall:
 	python3 -m pip install --force-reinstall --user dist/*whl
-# временные команды для проведения тестов
-t:
-	python -m pytest --cov=gendiff -v
